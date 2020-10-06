@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Adam Szlachta">
+  <meta name="dcterms.date" content="2020-10-07">
+  <title>Real World Functional Programming for Netguru</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/solarized.css" id="theme">
+  <link rel="stylesheet" href="rwfp.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Real World Functional Programming for Netguru</h1>
+  <p class="author">Adam Szlachta</p>
+  <p class="date">October 7, 2020</p>
+</section>
+
+<section id="about-me" class="slide level1">
+<h1>About me</h1>
+<ul>
+<li>currently - Restaumatic:
+<ul>
+<li>Haskell and PureScript
+<ul>
+<li>Ruby (on Rails), JavaScript, TypeScript</li>
+</ul></li>
+</ul></li>
+<li>past professional experience:
+<ul>
+<li>Elixir + Phoenix</li>
+<li>Scala + Play</li>
+<li>Java + Spring + Hibernate</li>
+<li>C#</li>
+<li>C++</li>
+<li>PHP</li>
+<li>Perl</li>
+</ul></li>
+<li>functional programming lab using Haskell - AGH</li>
+</ul>
+</section>
+<section id="agenda" class="slide level1">
+<h1>Agenda</h1>
+<ul>
+<li>a bit of history</li>
+<li>a bit of underlaying math</li>
+<li>functional vs purely functional programming</li>
+<li>functions, types and type classes</li>
+<li>algebraic data types</li>
+<li>side effects in purely functional programming</li>
+<li>functional programming in practice</li>
+<li>Haskell and PureScript on production</li>
+<li>questions/answers</li>
+</ul>
+</section>
+<section id="history" class="slide level1">
+<h1>History</h1>
+<ul>
+<li>1936 - lambda calculus (Alonzo Church)
+<ul>
+<li>untyped, inconsistent</li>
+</ul></li>
+<li>1940 - simply typed lambda calculus
+<ul>
+<li>consistent</li>
+</ul></li>
+<li>1942 - category theory initial concepts (Eilenberg &amp; Mac Lane)</li>
+<li>1957 - Fortran (first programming language)</li>
+<li>1958 - LISP (second programming language)
+<ul>
+<li>S-expressions</li>
+<li>dialects: Common LISP, Scheme, Racket, Clojure</li>
+<li>dynamically typed</li>
+</ul></li>
+</ul>
+</section>
+<section id="history-continued" class="slide level1">
+<h1>History (continued)</h1>
+<ul>
+<li>1972 - SASL (1976 procrastinating machine)</li>
+<li>1978 - Milner (Hindley–Milner type system aka HM)</li>
+<li>1985 - Miranda (SASL + algebraic types and HM)</li>
+<li>1989 - Coq (interactive theorem prover)</li>
+<li>1990 - Haskell
+<ul>
+<li>influenced Agda, Idris, Elm, PureScipt</li>
+<li>influenced by Miranda</li>
+</ul></li>
+<li>1999 - Agda (dependent types)</li>
+<li>2007 - Idris (dependent types)</li>
+</ul>
+</section>
+<section id="typing" class="slide level1">
+<h1>Typing</h1>
+<h2 id="dynamic-vs-static">dynamic vs static</h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">var</span> ala <span class="op">=</span> <span class="st">&quot;ma kota&quot;</span><span class="op">;</span> <span class="co">// JavaScript</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">var</span> ala : String = <span class="st">&quot;ma kota&quot;</span>; <span class="co">// Scala</span></span></code></pre></div>
+<h2 id="type-inference">type inference</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a><span class="kw">var</span> ala = <span class="st">&quot;ma kota&quot;</span>; <span class="co">// Scala</span></span></code></pre></div>
+</section>
+<section id="typing-1" class="slide level1">
+<h1>Typing</h1>
+<h2 id="strong-vs-weak">strong vs weak</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="co">// JavaScript</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="dv">4</span> <span class="op">+</span> <span class="st">&#39;7&#39;</span><span class="op">;</span>   <span class="co">// &#39;47&#39;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="dv">4</span> <span class="op">*</span> <span class="st">&#39;7&#39;</span><span class="op">;</span>   <span class="co">// 28</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="dv">2</span> <span class="op">+</span> <span class="kw">true</span><span class="op">;</span>  <span class="co">// 3</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a><span class="kw">false</span> <span class="op">-</span> <span class="dv">3</span><span class="op">;</span> <span class="co">// -3</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="co">// C</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="dt">void</span>* p;</span></code></pre></div>
+</section>
+<section id="function-type" class="slide level1">
+<h1>Function type</h1>
+<div class="sourceCode" id="cb6"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">def</span> inc(val)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a>  <span class="kw">return</span> val + <span class="dv">1</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a><span class="ot">inc ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>inc val <span class="ot">=</span> val <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="ot">inc ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>inc <span class="ot">=</span> (<span class="op">+</span> <span class="dv">1</span>)</span></code></pre></div>
+</section>
+<section id="underlaying-math" class="slide level1">
+<h1>Underlaying math</h1>
+<ul>
+<li>lambda calculus - computation model
+<ul>
+<li>early introduction of types</li>
+</ul></li>
+<li>logic (Curry-Howard correspondence)</li>
+<li>category theory</li>
+</ul>
+</section>
+<section id="lambda-calculus" class="slide level1">
+<h1>Lambda calculus</h1>
+<p><code>λx.x+1</code></p>
+<pre><code>(α) λx.A    →α  λy.[y/x]A
+(β) (λx.A)B →β  [B/x]A
+(η) λx.Ax   →η  A         if x not free in A</code></pre>
+</section>
+<section id="simply-typed-lambda-calculus" class="slide level1">
+<h1>Simply typed lambda calculus</h1>
+<p>Introduces function type: <code>𝜎→𝜏</code></p>
+<p><code>λx:Int.x+1</code></p>
+<p><code>λf:Int→Int.f 3</code></p>
+</section>
+<section id="function-types-examples" class="slide level1">
+<h1>Function types examples</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a><span class="fu">even</span><span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>                           <span class="co">-- even 7                  → False</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a><span class="fu">flip</span><span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c          <span class="co">-- flip (-) 4 6            → 2</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a><span class="fu">filter</span><span class="ot"> ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]           <span class="co">-- filter even [1,2,3,4]   → [2,4]</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a><span class="fu">replicate</span><span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> [a]                  <span class="co">-- replicate 3 7           → [7,7,7]</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a><span class="fu">repeat</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> [a]                            <span class="co">-- repeat 8                → [8..]</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a><span class="fu">zipWith</span><span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b] <span class="ot">-&gt;</span> [c] <span class="co">-- zipWith (+) [1,2] [3,4] → [4,6]</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true"></a><span class="fu">zip</span><span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> [b] <span class="ot">-&gt;</span> [(a, b)]                 <span class="co">-- zip [1,2] [3,4]         → [(1,2),(3,4)]</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true"></a>(,)<span class="ot"> ::</span> a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> (a, b)                       <span class="co">-- (,) 1 2                 → (1,2)</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true"></a><span class="fu">map</span><span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]                 <span class="co">-- map  (*2) [1,2,3]       → [2,4,6]</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true"></a><span class="fu">fmap</span><span class="ot"> ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b   <span class="co">-- fmap (*2) [1,2,3]       → [2,4,6]</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true"></a><span class="fu">foldl</span><span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> b <span class="co">-- foldl (+) 0 [1,2,3] → 6</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true"></a><span class="fu">foldr</span><span class="ot"> ::</span> <span class="dt">Foldable</span> t <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> t a <span class="ot">-&gt;</span> b <span class="co">-- foldr (+) 0 [1,2,3] → 6</span></span></code></pre></div>
+<p>Hoogle - <a href="https://hoogle.haskell.org" class="uri">https://hoogle.haskell.org</a></p>
+</section>
+<section id="polymorphism" class="slide level1">
+<h1>Polymorphism</h1>
+<ul>
+<li>ad hoc (function overloading)
+<ul>
+<li>functions behave differently for different argument types</li>
+</ul></li>
+<li>parametric (C++ templates, Java generics)</li>
+<li>subtyping</li>
+<li>row polyhorphism etc.</li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode java"><code class="sourceCode java"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true"></a><span class="co">// Java</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true"></a><span class="bu">List</span>&lt;<span class="bu">String</span>&gt; list = <span class="kw">new</span> <span class="bu">ArrayList</span>&lt;<span class="bu">String</span>&gt;();</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a><span class="co">-- Haskell</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="fu">map</span><span class="ot">  ::</span>              (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]  <span class="co">-- parametric</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a><span class="fu">fmap</span><span class="ot"> ::</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b  <span class="co">-- ad hoc</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a><span class="co">-- for list:   (a -&gt; b) -&gt; [a] -&gt; [b]</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a><span class="co">-- for tree:   (a -&gt; b) -&gt; Tree a -&gt; Tree b</span></span></code></pre></div>
+</section>
+<section id="lambda-cube" class="slide level1">
+<h1>Lambda cube</h1>
+<figure>
+<img data-src="images/lambda-cube.png" alt="Lambda cube" /><figcaption aria-hidden="true">Lambda cube</figcaption>
+</figure>
+</section>
+<section id="functional-programming" class="slide level1">
+<h1>Functional programming</h1>
+<ul>
+<li>First class functions</li>
+<li>Unmatched degree of abstraction and composition
+<ul>
+<li><code>const</code>, <code>id</code>, <code>($)</code>, <code>(.)</code></li>
+</ul></li>
+<li>Function types (in typed languages)</li>
+<li>Declarative style (in contrast to imperative)
+<ul>
+<li>no <code>for</code>, <code>while</code> and <code>until</code> loops! (<code>fold</code>, <code>map</code> and recursion instead)</li>
+<li><code>if</code> is an expression (like <code>p ? a : b</code> “operator”)</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb13"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a><span class="fu">const</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> a</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="fu">id</span><span class="ot">    ::</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="ot">($)   ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a><span class="ot">(.)   ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c</span></code></pre></div>
+<p>CH-correspondence</p>
+</section>
+<section id="functional-primitives-examples" class="slide level1">
+<h1>Functional primitives examples</h1>
+<div class="sourceCode" id="cb14"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="fu">const</span><span class="ot"> ::</span> a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> a</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="fu">id</span><span class="ot">    ::</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true"></a><span class="ot">($)   ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true"></a><span class="ot">(.)   ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a><span class="op">&gt;</span> <span class="fu">const</span> <span class="dv">7</span> <span class="dv">8</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a><span class="dv">7</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a><span class="op">&gt;</span> <span class="fu">id</span> <span class="dv">9</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a><span class="dv">9</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a><span class="op">&gt;</span> (<span class="op">*</span><span class="dv">2</span>) <span class="op">$</span> <span class="dv">7</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a><span class="dv">14</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true"></a><span class="op">&gt;</span> (<span class="op">*</span><span class="dv">2</span>) <span class="op">.</span> (<span class="op">+</span><span class="dv">2</span>) <span class="op">$</span> <span class="dv">3</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true"></a><span class="dv">10</span></span></code></pre></div>
+</section>
+<section id="quicksort" class="slide level1">
+<h1>Quicksort</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a><span class="dt">void</span> qsort(<span class="dt">int</span> a[], <span class="dt">int</span> lo, <span class="dt">int</span> hi) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a>  <span class="dt">int</span> h, l, p, t;</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>  <span class="cf">if</span> (lo &lt; hi) {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a>    l = lo;</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a>    h = hi;</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a>    p = a[hi];</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true"></a>    <span class="cf">do</span> {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true"></a>      <span class="cf">while</span> ((l &lt; h) &amp;&amp; (a[l] &lt;= p))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true"></a>          l = l+<span class="dv">1</span>;</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true"></a>      <span class="cf">while</span> ((h &gt; l) &amp;&amp; (a[h] &gt;= p))</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true"></a>          h = h-<span class="dv">1</span>;</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true"></a>      <span class="cf">if</span> (l &lt; h) {</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true"></a>          t = a[l];</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true"></a>          a[l] = a[h];</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true"></a>          a[h] = t;</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true"></a>      }</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true"></a>    } <span class="cf">while</span> (l &lt; h);</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true"></a>    a[hi] = a[l];</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true"></a>    a[l] = p;</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true"></a>    qsort( a, lo, l-<span class="dv">1</span> );</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true"></a>    qsort( a, l+<span class="dv">1</span>, hi );</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true"></a>  }</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true"></a>}</span></code></pre></div>
+</section>
+<section id="haskell-code-example" class="slide level1">
+<h1>Haskell code example</h1>
+<div class="sourceCode" id="cb17"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true"></a><span class="ot">qsort ::</span> <span class="dt">Ord</span> a <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true"></a>qsort []     <span class="ot">=</span> []</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true"></a>qsort (x<span class="op">:</span>xs) <span class="ot">=</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true"></a>  <span class="kw">let</span> smaller <span class="ot">=</span> <span class="fu">filter</span>  (<span class="op">&lt;</span> x) xs</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true"></a>      bigger  <span class="ot">=</span> <span class="fu">filter</span> (<span class="op">&gt;=</span> x) xs</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true"></a>  <span class="kw">in</span> qsort smaller <span class="op">++</span> [x] <span class="op">++</span> qsort bigger</span></code></pre></div>
+<ul>
+<li>pattern matching</li>
+<li>mathematical, recursive style
+<ul>
+<li>nearly equivalent to definition</li>
+</ul></li>
+</ul>
+</section>
+<section id="purely-functional-programming" class="slide level1">
+<h1>Purely functional programming</h1>
+<ul>
+<li>referential transparency</li>
+<li>side effects management (how?)</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="sourceCode ruby"><code class="sourceCode ruby"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true"></a><span class="kw">def</span> inc(val)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true"></a>  puts <span class="st">&quot;I&#39;m incrementing&quot;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true"></a>  dropBombs(<span class="dv">7</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true"></a>  <span class="kw">return</span> val + <span class="dv">1</span>             + rand(<span class="dv">2</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true"></a><span class="kw">end</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true"></a><span class="ot">inc ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true"></a>inc val <span class="ot">=</span> val <span class="op">+</span> <span class="dv">1</span>            <span class="co">-- `inc 1` can be replaced by `2`</span></span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true"></a><span class="ot">inc ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">Int</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true"></a>inc val <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true"></a>  <span class="fu">putStrLn</span> <span class="st">&quot;I&#39;m incrementing&quot;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true"></a>  <span class="fu">pure</span> <span class="op">$</span> val <span class="op">+</span> <span class="dv">1</span></span></code></pre></div>
+</section>
+<section id="side-effects" class="slide level1">
+<h1>Side effects</h1>
+<ul>
+<li>Which side effects exactly can be performed</li>
+<li>What environment the function can be executed in</li>
+</ul>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ot">cancelDeliveryJob ::</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>  ( <span class="dt">DBQueryEff</span> effs</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>  , <span class="dt">DBUpdateEff</span> effs</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">Time.L</span> effs</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a>  )</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a>  <span class="ot">=&gt;</span> <span class="dt">DeliveryJobId</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Eff</span> effs (<span class="dt">Either</span> <span class="dt">ValidationErrors</span> ())</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true"></a>cancelDeliveryJob deliveryJobId <span class="ot">=</span> tryUpdate <span class="ot">`catchError`</span> onConstraintError</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true"></a>  <span class="kw">where</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true"></a>  <span class="co">-- business logic here</span></span></code></pre></div>
+</section>
+<section id="side-effects-continuation" class="slide level1">
+<h1>Side effects (continuation)</h1>
+<div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="ot">generateCoupons ::</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>  ( <span class="dt">Member</span> <span class="dt">Time.L</span> effs</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">Random.L</span> effs</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true"></a>  , <span class="dt">DBQueryEff</span> effs</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true"></a>  , <span class="dt">DBUpdateEff</span> effs</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">Restaurant.L</span> effs</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true"></a>  , <span class="dt">Member</span> (<span class="dt">Exc</span> <span class="dt">InternalError</span>) effs</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true"></a>  )</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true"></a>  <span class="ot">=&gt;</span> <span class="dt">Int</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Coupon</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Eff</span> effs (<span class="dt">Either</span> <span class="dt">ValidationErrors</span> [<span class="dt">Coupon</span>])</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true"></a>generateCoupons count coupon <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true"></a>  <span class="co">-- business logic here</span></span></code></pre></div>
+</section>
+<section id="laziness" class="slide level1">
+<h1>Laziness</h1>
+<div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="fu">take</span><span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a><span class="op">&gt;</span> <span class="fu">take</span> <span class="dv">5</span> [<span class="dv">1</span><span class="op">..</span>]</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]</span></code></pre></div>
+<ul>
+<li>provides beautiful abstractions</li>
+<li>often overemphasized feature</li>
+<li>causes problems
+<ul>
+<li>complexity difficult to jugde</li>
+<li>difficult to “debug”</li>
+</ul></li>
+<li>some modern languages don’t really promote it (PureScript, Idris)</li>
+</ul>
+</section>
+<section id="type-classes" class="slide level1">
+<h1>Type classes</h1>
+<div class="sourceCode" id="cb24"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">Eq</span> a <span class="kw">where</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true"></a><span class="ot">  (==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true"></a><span class="ot">  (/=) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true"></a><span class="kw">class</span> <span class="dt">Eq</span> a <span class="ot">=&gt;</span> <span class="dt">Ord</span> a <span class="kw">where</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true"></a><span class="ot">  compare ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ordering</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true"></a><span class="ot">  (&lt;)     ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true"></a><span class="ot">  (&lt;=)    ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true"></a><span class="ot">  (&gt;)     ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true"></a><span class="ot">  (&gt;=)    ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true"></a><span class="ot">isPrefixOf ::</span> <span class="dt">Eq</span> a <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true"></a><span class="fu">sort</span><span class="ot"> ::</span> <span class="dt">Ord</span> a <span class="ot">=&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true"></a><span class="op">&gt;</span> isPrefixOf <span class="st">&quot;Ala&quot;</span> <span class="st">&quot;Ala ma kota&quot;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true"></a><span class="dt">True</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true"></a><span class="op">&gt;</span> <span class="fu">sort</span> <span class="st">&quot;Ala ma kota&quot;</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true"></a><span class="st">&quot;  Aaaaklmot&quot;</span></span></code></pre></div>
+</section>
+<section id="algebraic-data-types" class="slide level1">
+<h1>Algebraic data types</h1>
+<p>Kind fo composite types. Two classes of algebraic types are:</p>
+<ul>
+<li>product types (i.e., tuples and records)</li>
+<li>sum types (tagged unions, disjoint unions, variants, coproduct)</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true"></a><span class="co">-- product type</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Time</span> <span class="ot">=</span> <span class="dt">Time</span> <span class="dt">Hour</span> <span class="dt">Minute</span> <span class="dt">Second</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true"></a><span class="co">-- sum type</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Weekday</span> <span class="ot">=</span> <span class="dt">Monday</span> <span class="op">|</span> <span class="dt">Tuesday</span> <span class="op">|</span> <span class="dt">Wednesday</span> <span class="op">|</span> <span class="dt">Thursday</span> <span class="op">|</span> <span class="dt">Friday</span> <span class="op">|</span> <span class="dt">Saturday</span> <span class="op">|</span> <span class="dt">Sunday</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true"></a><span class="co">-- product, sum, recursion and parametrization</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">List</span> a <span class="ot">=</span> <span class="dt">Nil</span> <span class="op">|</span> <span class="dt">Cons</span> a (<span class="dt">List</span> a)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Tree</span> a <span class="ot">=</span> <span class="dt">Empty</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true"></a>            <span class="op">|</span> <span class="dt">Leaf</span> a</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true"></a>            <span class="op">|</span> <span class="dt">Node</span> <span class="dt">Tree</span> <span class="dt">Tree</span></span></code></pre></div>
+</section>
+<section id="pattern-matching" class="slide level1">
+<h1>Pattern matching</h1>
+<div class="sourceCode" id="cb27"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true"></a><span class="ot">isEmptyList ::</span> [a] <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true"></a>isEmptyList [] <span class="ot">=</span> <span class="dt">True</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true"></a>isEmptyList _  <span class="ot">=</span> <span class="dt">False</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true"></a><span class="ot">isEven ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true"></a>isEven v <span class="op">|</span> v <span class="op">&lt;</span> <span class="dv">0</span> <span class="ot">=</span> isEven (<span class="op">-</span>v)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true"></a>isEven <span class="dv">0</span>         <span class="ot">=</span> <span class="dt">True</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true"></a>isEven <span class="dv">1</span>         <span class="ot">=</span> <span class="dt">False</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true"></a>isEven v         <span class="ot">=</span> isEven (v <span class="op">-</span> <span class="dv">2</span>)</span></code></pre></div>
+</section>
+<section id="pattern-matching-continuation" class="slide level1">
+<h1>Pattern matching (continuation)</h1>
+<div class="sourceCode" id="cb28"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true"></a><span class="kw">data</span> <span class="dt">Tree</span> <span class="ot">=</span> <span class="dt">Empty</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true"></a>          <span class="op">|</span> <span class="dt">Leaf</span> <span class="dt">Int</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true"></a>          <span class="op">|</span> <span class="dt">Node</span> <span class="dt">Tree</span> <span class="dt">Tree</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true"></a>tree <span class="ot">=</span> <span class="dt">Node</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true"></a>        (<span class="dt">Node</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true"></a>          (<span class="dt">Leaf</span> <span class="dv">3</span>)</span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true"></a>          (<span class="dt">Leaf</span> <span class="dv">8</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true"></a>        )</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true"></a>        (<span class="dt">Node</span></span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true"></a>          (<span class="dt">Leaf</span> <span class="dv">7</span>)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true"></a>          (<span class="dt">Leaf</span> <span class="dv">9</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true"></a>        )</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true"></a></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true"></a><span class="ot">longestBranch ::</span> <span class="dt">Tree</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true"></a>longestBranch <span class="dt">Empty</span>             <span class="ot">=</span> <span class="dv">0</span></span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true"></a>longestBranch (<span class="dt">Leaf</span> _)          <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true"></a>longestBranch (<span class="dt">Node</span> left right) <span class="ot">=</span> <span class="dv">1</span> <span class="op">+</span> <span class="fu">max</span> (longestBranch left) (longestBranch right)</span></code></pre></div>
+</section>
+<section id="category-theory-abstractions" class="slide level1">
+<h1>Category theory abstractions</h1>
+<ul>
+<li>Monoid (Semigroup + neutral element)</li>
+<li>Functor</li>
+<li>Applicative</li>
+<li>Monad</li>
+</ul>
+<div class="sourceCode" id="cb29"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true"></a><span class="ot">(&lt;&gt;)  ::</span> <span class="dt">Semigrup</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true"></a><span class="op">&gt;</span> <span class="st">&quot;Ala&quot;</span> <span class="op">&lt;&gt;</span> <span class="st">&quot; &quot;</span> <span class="op">&lt;&gt;</span> <span class="st">&quot;ma kota&quot;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true"></a><span class="st">&quot;Ala ma kota&quot;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true"></a><span class="op">&gt;</span> [<span class="dv">1</span>,<span class="dv">2</span>] <span class="op">&lt;&gt;</span> [<span class="dv">3</span>,<span class="dv">4</span>]</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true"></a><span class="op">&gt;</span> <span class="dt">Sum</span> <span class="dv">2</span> <span class="op">&lt;&gt;</span> <span class="dt">Sum</span> <span class="dv">3</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true"></a><span class="dt">Sum</span> {getSum <span class="ot">=</span> <span class="dv">5</span>}</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true"></a><span class="op">&gt;</span> <span class="dt">Product</span> <span class="dv">2</span> <span class="op">&lt;&gt;</span> <span class="dt">Product</span> <span class="dv">3</span></span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true"></a><span class="dt">Product</span> {getProduct <span class="ot">=</span> <span class="dv">6</span>}</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true"></a><span class="op">&gt;</span> <span class="dt">Any</span> <span class="dt">False</span> <span class="op">&lt;&gt;</span> <span class="dt">Any</span> <span class="dt">True</span> <span class="op">&lt;&gt;</span> <span class="dt">Any</span> <span class="dt">False</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true"></a><span class="dt">Any</span> {getAny <span class="ot">=</span> <span class="dt">True</span>}</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true"></a><span class="op">&gt;</span> <span class="dt">EQ</span> <span class="op">&lt;&gt;</span> <span class="dt">GT</span> <span class="op">&lt;&gt;</span> <span class="dt">LT</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true"></a><span class="dt">GT</span></span></code></pre></div>
+</section>
+<section id="category-theory-abstractions-continuation" class="slide level1">
+<h1>Category theory abstractions (continuation)</h1>
+<ul>
+<li>Functor</li>
+<li>Applicative</li>
+<li>Monad</li>
+</ul>
+<div class="sourceCode" id="cb30"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true"></a><span class="ot">(&lt;$&gt;) ::</span> <span class="dt">Functor</span> f     <span class="ot">=&gt;</span>   (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b   <span class="co">-- function</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true"></a><span class="ot">(&lt;$&gt;) ::</span> <span class="dt">Applicative</span> f <span class="ot">=&gt;</span> f (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b   <span class="co">-- &quot;packed&quot; function</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true"></a><span class="ot">(=&lt;&lt;) ::</span> <span class="dt">Monad</span> f       <span class="ot">=&gt;</span> (a <span class="ot">-&gt;</span> f b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b   <span class="co">-- Kleisli arrow</span></span></code></pre></div>
+</section>
+<section id="haskell-and-purescript-on-production" class="slide level1">
+<h1>Haskell and PureScript on production</h1>
+<ul>
+<li>Huge amount of libraries</li>
+<li>Great community</li>
+<li>Lots of examples (stackoverflow etc.)</li>
+<li>Pretty good tooling
+<ul>
+<li>VSCode (Haskell Language Server)</li>
+<li>stack</li>
+</ul></li>
+<li>Refactoring, deep changes are a bliss (almost)
+<ul>
+<li>Types will lead you</li>
+</ul></li>
+<li>Low maintainance</li>
+</ul>
+</section>
+<section id="functional-programming-1" class="slide level1">
+<h1>Functional programming</h1>
+<ul>
+<li>Extremely rewarding and satisfying</li>
+<li>May be challenging for beginners</li>
+<li>Still very recommended to beginners!
+<ul>
+<li>eyes opening</li>
+<li>teaches good style</li>
+<li>teaches thinking in terms of abstractions</li>
+<li>helps understanding programming in general</li>
+</ul></li>
+</ul>
+</section>
+<section id="sources" class="slide level1">
+<h1>Sources</h1>
+<ul>
+<li>Learning resources:
+<ul>
+<li><a href="http://learnyouahaskell.com" class="uri">http://learnyouahaskell.com</a></li>
+<li><a href="https://wiki.haskell.org/Typeclassopedia" class="uri">https://wiki.haskell.org/Typeclassopedia</a></li>
+</ul></li>
+<li>Links
+<ul>
+<li><a href="https://www.haskell.org" class="uri">https://www.haskell.org</a></li>
+<li><a href="https://hoogle.haskell.org" class="uri">https://hoogle.haskell.org</a> (lookup by type signature)</li>
+<li><a href="https://hackage.haskell.org" class="uri">https://hackage.haskell.org</a> (libraries)</li>
+<li><a href="https://docs.haskellstack.org" class="uri">https://docs.haskellstack.org</a> (stack tool)</li>
+</ul></li>
+<li>For Ruby
+<ul>
+<li><a href="https://dry-rb.org" class="uri">https://dry-rb.org</a> dry-monads and other “dry” gems</li>
+</ul></li>
+</ul>
+</section>
+<section id="qa" class="slide level1">
+<h1>Q&amp;A</h1>
+<ul>
+<li>adam.szlachta@gmail.com</li>
+<li><a href="https://www.linkedin.com/in/adamszlachta" class="uri">https://www.linkedin.com/in/adamszlachta</a></li>
+</ul>
+</section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  // reveal.js plugins
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+
+        // reveal.js plugins
+        plugins: [
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
