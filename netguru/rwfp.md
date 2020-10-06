@@ -337,7 +337,7 @@ take :: Int -> [a] -> [a]
 * provides beautiful abstractions
 * often overemphasized feature
 * causes problems
-  * complexity difficult to jugde
+  * complexity difficult to judge
   * difficult to "debug"
 * some modern languages don't really promote it (PureScript, Idris)
 
