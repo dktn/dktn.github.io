@@ -487,6 +487,8 @@ GT
 * Learning resources:
   * <http://learnyouahaskell.com>
   * <https://wiki.haskell.org/Typeclassopedia>
+  * <https://www.slideshare.net/kenbot/your-data-structures-are-made-of-maths>
+  * many others...
 
 * Links
   * <https://www.haskell.org>
