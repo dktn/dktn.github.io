@@ -21,6 +21,8 @@ date: October 7, 2020
 
 # Agenda
 
+## <https://dktn.github.io/netguru>
+
 - a bit of history
 - a bit of underlaying math
 - functional vs purely functional programming
