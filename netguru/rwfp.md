@@ -297,15 +297,14 @@ inc val = do
 * What environment the function can be executed in
 
 ```haskell
-cancelDeliveryJob ::
-  ( DBQueryEff effs
-  , DBUpdateEff effs
-  , Member Time.L effs
+cancelTask ::
+  ( DBQuery effs
+  , DBUpdate effs
+  , Member TimeL effs
   )
-  => DeliveryJobId
-  -> Eff effs (Either ValidationErrors ())
-cancelDeliveryJob deliveryJobId = tryUpdate `catchError` onConstraintError
-  where
+  => TaskId
+  -> Eff effs (Either Errors ())
+cancelTask taskId = do
   -- business logic here
 ```
 
@@ -313,16 +312,15 @@ cancelDeliveryJob deliveryJobId = tryUpdate `catchError` onConstraintError
 
 ```haskell
 generateCoupons ::
-  ( Member Time.L effs
-  , Member Random.L effs
-  , DBQueryEff effs
-  , DBUpdateEff effs
-  , Member Restaurant.L effs
+  ( DBQuery effs
+  , DBUpdate effs
+  , Member TimeL effs
+  , Member RandomL effs
+  , Member WebStoreL effs
   , Member (Exc InternalError) effs
-  )
   => Int
   -> Coupon
-  -> Eff effs (Either ValidationErrors [Coupon])
+  -> Eff effs (Either Errors [Coupon])
 generateCoupons count coupon = do
   -- business logic here
 ```
@@ -333,7 +331,7 @@ generateCoupons count coupon = do
 take :: Int -> [a] -> [a]
 
 > take 5 [1..]
-[1,2,3,4]
+[1,2,3,4,5]
 ```
 
 * provides beautiful abstractions

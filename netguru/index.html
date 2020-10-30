@@ -368,39 +368,37 @@
 <li>Which side effects exactly can be performed</li>
 <li>What environment the function can be executed in</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ot">cancelDeliveryJob ::</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>  ( <span class="dt">DBQueryEff</span> effs</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>  , <span class="dt">DBUpdateEff</span> effs</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">Time.L</span> effs</span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true"></a><span class="ot">cancelTask ::</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true"></a>  ( <span class="dt">DBQuery</span> effs</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true"></a>  , <span class="dt">DBUpdate</span> effs</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">TimeL</span> effs</span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true"></a>  )</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a>  <span class="ot">=&gt;</span> <span class="dt">DeliveryJobId</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Eff</span> effs (<span class="dt">Either</span> <span class="dt">ValidationErrors</span> ())</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true"></a>cancelDeliveryJob deliveryJobId <span class="ot">=</span> tryUpdate <span class="ot">`catchError`</span> onConstraintError</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true"></a>  <span class="kw">where</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true"></a>  <span class="co">-- business logic here</span></span></code></pre></div>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true"></a>  <span class="ot">=&gt;</span> <span class="dt">TaskId</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Eff</span> effs (<span class="dt">Either</span> <span class="dt">Errors</span> ())</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true"></a>cancelTask taskId <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true"></a>  <span class="co">-- business logic here</span></span></code></pre></div>
 </section>
 <section id="side-effects-continuation" class="slide level1">
 <h1>Side effects (continuation)</h1>
 <div class="sourceCode" id="cb22"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true"></a><span class="ot">generateCoupons ::</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>  ( <span class="dt">Member</span> <span class="dt">Time.L</span> effs</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">Random.L</span> effs</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true"></a>  , <span class="dt">DBQueryEff</span> effs</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true"></a>  , <span class="dt">DBUpdateEff</span> effs</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">Restaurant.L</span> effs</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true"></a>  ( <span class="dt">DBQuery</span> effs</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true"></a>  , <span class="dt">DBUpdate</span> effs</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">TimeL</span> effs</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">RandomL</span> effs</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">WebStoreL</span> effs</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true"></a>  , <span class="dt">Member</span> (<span class="dt">Exc</span> <span class="dt">InternalError</span>) effs</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true"></a>  )</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true"></a>  <span class="ot">=&gt;</span> <span class="dt">Int</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Coupon</span></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Eff</span> effs (<span class="dt">Either</span> <span class="dt">ValidationErrors</span> [<span class="dt">Coupon</span>])</span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true"></a>generateCoupons count coupon <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true"></a>  <span class="co">-- business logic here</span></span></code></pre></div>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true"></a>  <span class="ot">=&gt;</span> <span class="dt">Int</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Coupon</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Eff</span> effs (<span class="dt">Either</span> <span class="dt">Errors</span> [<span class="dt">Coupon</span>])</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true"></a>generateCoupons count coupon <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true"></a>  <span class="co">-- business logic here</span></span></code></pre></div>
 </section>
 <section id="laziness" class="slide level1">
 <h1>Laziness</h1>
 <div class="sourceCode" id="cb23"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true"></a><span class="fu">take</span><span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true"></a><span class="op">&gt;</span> <span class="fu">take</span> <span class="dv">5</span> [<span class="dv">1</span><span class="op">..</span>]</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>]</span></code></pre></div>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true"></a>[<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>]</span></code></pre></div>
 <ul>
 <li>provides beautiful abstractions</li>
 <li>often overemphasized feature</li>
