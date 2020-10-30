@@ -388,10 +388,9 @@
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true"></a>  , <span class="dt">Member</span> <span class="dt">WebStoreL</span> effs</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true"></a>  , <span class="dt">Member</span> (<span class="dt">Exc</span> <span class="dt">InternalError</span>) effs</span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true"></a>  <span class="ot">=&gt;</span> <span class="dt">Int</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Coupon</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Eff</span> effs (<span class="dt">Either</span> <span class="dt">Errors</span> [<span class="dt">Coupon</span>])</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true"></a>generateCoupons count coupon <span class="ot">=</span> <span class="kw">do</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true"></a>  <span class="co">-- business logic here</span></span></code></pre></div>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true"></a>  <span class="ot">-&gt;</span> <span class="dt">Eff</span> effs (<span class="dt">Either</span> <span class="dt">Errors</span> [<span class="dt">Coupon</span>])</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true"></a>generateCoupons count <span class="ot">=</span> <span class="kw">do</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true"></a>  <span class="co">-- business logic here</span></span></code></pre></div>
 </section>
 <section id="laziness" class="slide level1">
 <h1>Laziness</h1>

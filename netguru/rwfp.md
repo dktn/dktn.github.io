@@ -319,9 +319,8 @@ generateCoupons ::
   , Member WebStoreL effs
   , Member (Exc InternalError) effs
   => Int
-  -> Coupon
   -> Eff effs (Either Errors [Coupon])
-generateCoupons count coupon = do
+generateCoupons count = do
   -- business logic here
 ```
 
